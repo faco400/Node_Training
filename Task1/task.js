@@ -11,11 +11,9 @@ function fillBlancks(string, spaces) {
 String.plus = function(string1, string2) {
   var result = '';
   var sum;
-  // console.log(`sum ${string1}, ${string2}`);
   var carry = 0;
 
   for (i = string1.length - 1; i >= 0 || carry != 0; i--){
-    // j = i - 1;
     
     if (string1[i] == undefined ){
       result = result.replace(/^/, carry.toString())
@@ -38,9 +36,33 @@ String.plus = function(string1, string2) {
   console.log(result);
 };
 
-// String.minus = function (string) {
-//   console.log');
-// };
+String.minus = function (string1, string2) {
+  var result = '';
+  var minus;
+  var ask = 0;
+
+  for (i = string1.length - 1; i >= 0; i--){
+
+    if (ask == 0) {
+      if (parseInt(string1[i]) >= parseInt(string2[i])) {
+        minus = parseInt(string1[i]) - parseInt(string2[i]);
+      } else {
+        minus = parseInt(string1[i]) + 10 - parseInt(string2[i]);
+        ask = 1;
+      }
+    } else {
+      if ((parseInt(string1[i]) - 1) >= parseInt(string2[i])) {
+        minus = parseInt(string1[i]) - 1 - parseInt(string2[i]);
+      } else {
+        minus = ((parseInt(string1[i]) - 1) + 10) - parseInt(string2[i])
+      }
+    }
+
+    result = result.replace(/^/, minus.toString())
+  }
+
+  console.log(result);
+};
 
 // String.divide = function (string) {
 //   console.log('soma');
@@ -52,12 +74,15 @@ String.plus = function(string1, string2) {
 
 var num1 = prompt('Please, type first number: ');
 var num2 = prompt('Please, type second number: ');
+
 if (num1.length > num2.length){
   num2 = fillBlancks(num2, num1.length - num2.length);
-  String.plus(num1, num2);
+  // String.plus(num1, num2);
+  String.minus(num1, num2);
 } else if (num2.length > num1.length){
   num1 = fillBlancks(num1, num2.length - num1.length);
-  String.plus(num2, num1);
+  // String.plus(num2, num1);
 } else{
-  String.plus(num1, num2);
+  // String.plus(num1, num2);
+  String.minus(num1, num2);
 }

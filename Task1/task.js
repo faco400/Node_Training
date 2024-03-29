@@ -64,25 +64,60 @@ String.minus = function (string1, string2) {
   console.log(result);
 };
 
-// String.divide = function (string) {
+String.divide = function (string1, string2) {
+  var rest = 0;
+  var dividend = '';
+  var quotient = '';
+  var digit;
+  var quotientDigit;
+
+  
+  for (i = 0; i < string1.length || quotient == ''; i++) {
+    dividend += string1[i]
+    if (parseInt(dividend) < parseInt(string2) ) {
+      i += 1;
+      dividend += string1[i];
+
+    } else {
+      quotientDigit = Math.floor(parseInt(dividend) / parseInt(string2));
+      digit = quotientDigit * parseInt(string2);
+      rest = parseInt(dividend) - digit;
+      
+      if (parseInt(rest) != 0){
+        dividend = rest.toString();
+      } else {
+        dividend = ''
+      }
+
+      quotient += quotientDigit;
+    }
+  }
+
+  console.log(quotient);
+
+};
+
+// String.multiply = function(string1, string2) {
 //   console.log('soma');
 // };
 
-// String.multiply = function(string) {
-//   console.log('soma');
-// };
+
 
 var num1 = prompt('Please, type first number: ');
 var num2 = prompt('Please, type second number: ');
 
-if (num1.length > num2.length){
-  num2 = fillBlancks(num2, num1.length - num2.length);
-  // String.plus(num1, num2);
-  String.minus(num1, num2);
-} else if (num2.length > num1.length){
-  num1 = fillBlancks(num1, num2.length - num1.length);
-  // String.plus(num2, num1);
-} else{
-  // String.plus(num1, num2);
-  String.minus(num1, num2);
-}
+
+// Debugging ...
+// String.divide(num1,num2);
+
+// if (num1.length > num2.length){
+//   num2 = fillBlancks(num2, num1.length - num2.length);
+//   // String.plus(num1, num2);
+//   // String.minus(num1, num2);
+// } else if (num2.length > num1.length){
+//   num1 = fillBlancks(num1, num2.length - num1.length);
+//   // String.plus(num2, num1);
+// } else{
+//   // String.plus(num1, num2);
+//   // String.minus(num1, num2);
+// }

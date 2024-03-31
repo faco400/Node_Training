@@ -1,6 +1,6 @@
 const prompt = require('prompt-sync')();
 
-// Function to fill blank spaces
+// Function to fill blank spaces to the left
 function fillBlancks(string, spaces) {
   for (i = 0; i < spaces; i++){
     string = string.replace(/^/, '0');
@@ -9,11 +9,11 @@ function fillBlancks(string, spaces) {
 }
 
 String.plus = function(string1, string2) {
-  var result = '';
-  var sum;
-  var carry = 0;
+  let result = '';
+  let sum;
+  let carry = 0;
 
-  for (i = string1.length - 1; i >= 0 || carry != 0; i--){
+  for (let i = string1.length - 1; i >= 0 || carry != 0; i--){
     
     if (string1[i] == undefined ){
       result = result.replace(/^/, carry.toString())
@@ -33,13 +33,13 @@ String.plus = function(string1, string2) {
     
   }
   
-  console.log(result);
+  return result;
 };
 
 String.minus = function (string1, string2) {
-  var result = '';
-  var minus;
-  var ask = 0;
+  let result = '';
+  let minus;
+  let ask = 0;
 
   for (i = string1.length - 1; i >= 0; i--){
 
@@ -61,15 +61,15 @@ String.minus = function (string1, string2) {
     result = result.replace(/^/, minus.toString())
   }
 
-  console.log(result);
+  return result;
 };
 
 String.divide = function (string1, string2) {
-  var rest = 0;
-  var dividend = '';
-  var quotient = '';
-  var digit;
-  var quotientDigit;
+  let rest = 0;
+  let dividend = '';
+  let quotient = '';
+  let digit;
+  let quotientDigit;
 
   
   for (i = 0; i < string1.length || quotient == ''; i++) {
@@ -93,19 +93,56 @@ String.divide = function (string1, string2) {
     }
   }
 
-  console.log(quotient);
+  return quotient;
 
 };
 
-// String.multiply = function(string1, string2) {
-//   console.log('soma');
-// };
+String.multiply = function(string1, string2) {
+  let result = '0';
+  let carry = 0;
+  let product;
+  let productSum = '';
+  let count = 0
+
+  for (let i = string2.length - 1; i >= 0; i--) {
+    carry = 0;    
+    productSum = ''
+  
+    // if string2 has more algarisms adds 0 as needed for later sum
+    if (string2.length > 1) { 
+      for(let aux = 0; aux < count; aux++){
+        productSum += '0';
+      }
+    }
+    
+    for (let j = string1.length - 1; j >= 0; j--) {
+      // console.log(`${string2[i]}\n*\n${string1[j]}\n`)
+
+      product = parseInt(string2[i]) * parseInt(string1[j]) + carry;
+
+      if (product >= 10 && j-1 >= 0) { //if product above or 10 and not the last digit of string1 there is carry
+        carry = Math.floor(product/10); // takes the integer part as a carry
+        product = product % 10 // remainder
+      } 
+      productSum = productSum.replace(/^/, product.toString())
+      
+    }
+
+    // sum of numbers (this ensures sum of numbers when string 2 has 2 or more algarisms)
+    result = fillBlancks(result, productSum.length - result.length)
+    result = String.plus(result,productSum)
+    count++;
+  }
+
+  return result;
+
+};
 
 
 
-var num1 = prompt('Please, type first number: ');
-var num2 = prompt('Please, type second number: ');
-
+let num1 = prompt('Please, type first number: ');
+let num2 = prompt('Please, type second number: ');
+let result;
 
 // Debugging ...
 // String.divide(num1,num2);
@@ -121,3 +158,11 @@ var num2 = prompt('Please, type second number: ');
 //   // String.plus(num1, num2);
 //   // String.minus(num1, num2);
 // }
+
+if (num1.length > num2.length) {
+  result = String.multiply(num1,num2);
+} else {
+  result = String.multiply(num2,num1);
+}
+
+console.log(result)

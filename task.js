@@ -138,14 +138,75 @@ String.multiply = function(string1, string2) {
 
 };
 
+function menu() {
+  let option;
+  let result;
 
+  while (1) {
+    console.clear()
+    console.log('OPERATIONS OPTIONS');
+    console.log('1) Sum');
+    console.log('2) Subtraction');
+    console.log('3) Divide');
+    console.log('4) Multiply');
+    console.log('5) Exit')
+    option = prompt('Select the operation: ');
 
-let num1 = prompt('Please, type first number: ');
-let num2 = prompt('Please, type second number: ');
-let result;
+    if (option == '5'){
+      break;
+    }
+
+    let num1 = prompt('Please, type first number: ');
+    let num2 = prompt('Please, type second number: ');
+
+    if(option == '1') {
+      if (num1.length > num2.length){
+        num2 = fillBlancks(num2, num1.length - num2.length);
+        result = String.plus(num1, num2);
+      } else if (num2.length > num1.length){
+        num1 = fillBlancks(num1, num2.length - num1.length);
+        result = String.plus(num2, num1);
+      } else{
+        result = String.plus(num1, num2);
+      }
+
+    }else if (option == '2') {
+      if (num1.length > num2.length){
+        num2 = fillBlancks(num2, num1.length - num2.length);
+        result = String.minus(num1, num2);
+      } else if (num2.length > num1.length){
+        num1 = fillBlancks(num1, num2.length - num1.length);
+        result = String.minus(num2, num1);
+      } else{
+        result = String.minus(num1, num2);
+      }
+
+    } else if (option == '3') {
+      result = String.divide(num1,num2);
+
+    } else if (option == '4') {
+      if (num1.length > num2.length) {
+        result = String.multiply(num1,num2);
+      } else {
+        result = String.multiply(num2,num1);
+      }
+      
+    } else {
+      continue;
+    }
+    
+    console.log('Result of operation: '+ result);
+    prompt('Press any key to continue');
+  }
+
+}
+
+menu();
+
+// let result;
 
 // Debugging ...
-// String.divide(num1,num2);
+// result = String.divide(num1,num2);
 
 // if (num1.length > num2.length){
 //   num2 = fillBlancks(num2, num1.length - num2.length);
@@ -159,10 +220,10 @@ let result;
 //   // String.minus(num1, num2);
 // }
 
-if (num1.length > num2.length) {
-  result = String.multiply(num1,num2);
-} else {
-  result = String.multiply(num2,num1);
-}
+// if (num1.length > num2.length) {
+//   result = String.multiply(num1,num2);
+// } else {
+//   result = String.multiply(num2,num1);
+// }
 
-console.log(result)
+// console.log(result)

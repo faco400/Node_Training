@@ -8,10 +8,24 @@ function fillBlancks(string, spaces) {
   return string
 }
 
-String.plus = function(string1, string2) {
+function compareLengths(string1, string2) {
+  if (string1.length > string2.length){
+    string2 = fillBlancks(string2, string1.length - string2.length);
+  } else if (string2.length > string1.length){
+    string1 = fillBlancks(string1, string2.length - string1.length);
+    return [string2, string1]
+  }
+  return [string1, string2];
+
+}
+
+String.prototype.plus = function(string2) {
   let result = '';
   let sum;
   let carry = 0;
+  var string1 = this;
+
+  [string1, string2] = compareLengths(string1,string2);
 
   for (let i = string1.length - 1; i >= 0 || carry != 0; i--){
     
@@ -33,13 +47,17 @@ String.plus = function(string1, string2) {
     
   }
   
+  result = result.replace(/^0+/, '');
   return result;
 };
 
-String.minus = function (string1, string2) {
+String.prototype.minus = function (string2) {
   let result = '';
   let minus;
   let ask = 0;
+  let string1 = this;
+
+  [string1, string2] = compareLengths(string1,string2);
 
   for (i = string1.length - 1; i >= 0; i--){
 
@@ -64,20 +82,21 @@ String.minus = function (string1, string2) {
   return result;
 };
 
-String.divide = function (string1, string2) {
+String.prototype.divide = function (string2) {
   let rest = 0;
   let dividend = '';
   let quotient = '';
   let digit;
   let quotientDigit;
+  let string1 = this;
 
-  
   for (i = 0; i < string1.length || quotient == ''; i++) {
-    dividend += string1[i]
+    dividend += string1[i];
+    
     if (parseInt(dividend) < parseInt(string2) ) {
-      i += 1;
-      dividend += string1[i];
-
+      quotient += '0';
+      continue;
+      
     } else {
       quotientDigit = Math.floor(parseInt(dividend) / parseInt(string2));
       digit = quotientDigit * parseInt(string2);
@@ -93,16 +112,20 @@ String.divide = function (string1, string2) {
     }
   }
 
+  quotient = quotient.replace(/^0+/, '');
   return quotient;
 
 };
 
-String.multiply = function(string1, string2) {
+String.prototype.multiply = function(string2) {
   let result = '0';
   let carry = 0;
   let product;
   let productSum = '';
-  let count = 0
+  let count = 0;
+  let string1 = this;
+
+  [string1, string2] = compareLengths(string1,string2);
 
   for (let i = string2.length - 1; i >= 0; i--) {
     carry = 0;    
@@ -130,100 +153,85 @@ String.multiply = function(string1, string2) {
 
     // sum of numbers (this ensures sum of numbers when string 2 has 2 or more algarisms)
     result = fillBlancks(result, productSum.length - result.length)
-    result = String.plus(result,productSum)
+    result = result.plus(productSum)
     count++;
   }
 
+  result = result.replace(/^0+/, '');
   return result;
 
 };
 
-function menu() {
-  let option;
-  let result;
 
-  while (1) {
-    console.clear()
-    console.log('OPERATIONS OPTIONS');
-    console.log('1) Sum');
-    console.log('2) Subtraction');
-    console.log('3) Divide');
-    console.log('4) Multiply');
-    console.log('5) Exit')
-    option = prompt('Select the operation: ');
 
-    if (option == '5'){
-      break;
-    }
+//Debugging...
+// console.log('22'.plus('99999999999999999999'));
+// console.log('99999999999999999999'.minus('99999999999999999999'));
+// console.log('9999999999'.divide('11'));
+// console.log('999999999'.multiply('2'));
 
-    let num1 = prompt('Please, type first number: ');
-    let num2 = prompt('Please, type second number: ');
+// Menu
+// function menu() {
+//   let option;
+//   let result;
 
-    if(option == '1') {
-      if (num1.length > num2.length){
-        num2 = fillBlancks(num2, num1.length - num2.length);
-        result = String.plus(num1, num2);
-      } else if (num2.length > num1.length){
-        num1 = fillBlancks(num1, num2.length - num1.length);
-        result = String.plus(num2, num1);
-      } else{
-        result = String.plus(num1, num2);
-      }
+//   while (1) {
+//     console.clear()
+//     console.log('OPERATIONS OPTIONS');
+//     console.log('1) Sum');
+//     console.log('2) Subtraction');
+//     console.log('3) Divide');
+//     console.log('4) Multiply');
+//     console.log('5) Exit')
+//     option = prompt('Select the operation: ');
 
-    }else if (option == '2') {
-      if (num1.length > num2.length){
-        num2 = fillBlancks(num2, num1.length - num2.length);
-        result = String.minus(num1, num2);
-      } else if (num2.length > num1.length){
-        num1 = fillBlancks(num1, num2.length - num1.length);
-        result = String.minus(num2, num1);
-      } else{
-        result = String.minus(num1, num2);
-      }
+//     if (option == '5'){
+//       break;
+//     }
 
-    } else if (option == '3') {
-      result = String.divide(num1,num2);
+//     let num1 = prompt('Please, type first number: ');
+//     let num2 = prompt('Please, type second number: ');
 
-    } else if (option == '4') {
-      if (num1.length > num2.length) {
-        result = String.multiply(num1,num2);
-      } else {
-        result = String.multiply(num2,num1);
-      }
+//     if(option == '1') {
+//       if (num1.length > num2.length){
+//         num2 = fillBlancks(num2, num1.length - num2.length);
+//         result = num1.plus(num2);
+//       } else if (num2.length > num1.length){
+//         num1 = fillBlancks(num1, num2.length - num1.length);
+//         result = num2.plus(num1);
+//       } else{
+//         result = num1.plus(num2);
+//       }
+
+//     }else if (option == '2') {
+//       if (num1.length > num2.length){
+//         num2 = fillBlancks(num2, num1.length - num2.length);
+//         result = num1.minus(num2);
+//       } else if (num2.length > num1.length){
+//         num1 = fillBlancks(num1, num2.length - num1.length);
+//         result = num2.minus( num1);
+//       } else{
+//         result = num1.minus(num2);
+//       }
+
+//     } else if (option == '3') {
+//       result = num1.divide(num2);
+
+//     } else if (option == '4') {
+//       if (num1.length > num2.length) {
+//         result = num1.multiply(num2);
+//       } else {
+//         result = num2.multiply(num1);
+//       }
       
-    } else {
-      continue;
-    }
+//     } else {
+//       continue;
+//     }
     
-    console.log('Result of operation: '+ result);
-    prompt('Press any key to continue');
-  }
+//     console.log('Result of operation: '+ result);
+//     prompt('Press any key to continue');
+//   }
 
-}
-
-menu();
-
-// let result;
-
-// Debugging ...
-// result = String.divide(num1,num2);
-
-// if (num1.length > num2.length){
-//   num2 = fillBlancks(num2, num1.length - num2.length);
-//   // String.plus(num1, num2);
-//   // String.minus(num1, num2);
-// } else if (num2.length > num1.length){
-//   num1 = fillBlancks(num1, num2.length - num1.length);
-//   // String.plus(num2, num1);
-// } else{
-//   // String.plus(num1, num2);
-//   // String.minus(num1, num2);
 // }
 
-// if (num1.length > num2.length) {
-//   result = String.multiply(num1,num2);
-// } else {
-//   result = String.multiply(num2,num1);
-// }
-
-// console.log(result)
+// menu();

@@ -23,6 +23,13 @@ Division should only result in an integer value.
 Repository focused in learning Node
 
 # How to run
+You can run the code with: 
+```terminal
+node task.js
+```
+
+
+<!-- # How to run
 1. install dependencies:
 ```terminal
 npm install
@@ -31,4 +38,4 @@ npm install
 2. run program with node:
 ```terminal
 node task.js
-```
+``` -->
